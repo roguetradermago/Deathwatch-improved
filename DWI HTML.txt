@@ -388,7 +388,7 @@
                 </div>
                 <div class="grid8b">
                     <button name="roll_Evaluate" type="roll" id="subitem" value="@{gmroll}&{template:custom} {{name=**@{character_name} Test Evaluate**}} {{dosdof=[[(((  ([[(@{Evaluate}+?{Modifier|0})]] - [[1d100cs1cf100]]) * 100 % 999 % 100  )))]] **Degrees**}} {{testtarget= $[[0]] }} {{d100= $[[1]] }} {{testresult= }}"><label>Evaluate</label></button>
-                    <span id="gridspan" title="Use Evaluate to determine the approximate value, strength or manufacture&#10;of items or objects. Success reveals information such as its value, craftsmanship, integrity or model.&#10;Degrees of Success give additional information about the objects.&#10;Failure gives false information about the object, increasing with each Degree of Failure&#10;&#10;The Test should be adjusted based on access to it, and any Lore or Trade Skills related.&#10;Using Evaluate on large or numerous items requires an Extended Test,&#10;though the character can appraise single items in about a minute.&#10;&#10;-Skill Use: 1 minute or more.&#10;&#10;-Special Use: Weakpoints&#10;When making an attack against a heavily armoured stationary target such as a bunker or&#10;pillbox, a Success adds an additional +4 Pen&#10;for his next attack against the target. Each Degree of Success adds +4 Pen each. This is a Full Action.&#10;-Special Use: Solid Cover&#10;When in cover, Success adds +4 AP to the cover&#10;with each Degree of Success adding +4 AP each. This is Half Action.&#10;&#10;-Category: Investigation.">(Int) &#128712;</span>
+                    <span id="gridspan" title="Use Evaluate to determine the approximate value, strength or manufacture&#10;of any object. Success reveals information such as its value, craftsmanship,&#10;integrity or model. Degrees of Success gives more detailed info about the objects.&#10;Failure gives false information about the object, increasing with each Degree of Failure&#10;&#10;The Test should be adjusted based on access to it, and any Lore or Trade Skills related.&#10;Using Evaluate on large or numerous items requires an Extended Test,&#10;though the character can appraise single items in about a minute.&#10;&#10;-Skill Use: 1 minute or more.&#10;&#10;-Special Use: Weakpoints&#10;When making an attack against a heavily armoured stationary target such as&#10;a bunker or pillbox, Success adds +4 Pen for his next attack against the target.&#10;Each Degree of Success adds +4 Pen each. This is a Full Action.&#10;-Special Use: Solid Cover&#10;When in cover, Success adds +4 AP to the cover&#10;with each Degree of Success adding +4 AP each. This is Half Action.&#10;&#10;-Category: Investigation.">(Int) &#128712;</span>
                     <div id="cbitem"><input name="attr_Evaluate1" type="checkbox" value="0.5"/></div>
                     <div id="cbitem"><input name="attr_Evaluate2" type="checkbox" value="10"/></div>
                     <div id="cbitem"><input name="attr_Evaluate3" type="checkbox" value="10"/></div>
@@ -1463,19 +1463,31 @@
         <h3>Armour & Defense &#9929;</h3>
         <!--Initiative and damage calc-->
         <div>
-            <button name="roll_Initiative" type="roll" style="width:20%" title="Select your token first!&#10;Rolls 1d10 + Initiative Modifier&#10;&#10;-------->&#10;Remember to add your modifier&#10;on the small field to the right"  
-            value="@{gmroll}&{template:custom} {{name=**@{character_name} rolls Initiative**}} {{d1=**Initiative Modifier** [[@{inimod}]] }} {{t1=**Agility Bonus** [[@{AB}]] }} {{Initiative Result= [[1d10+@{inimod}&{tracker&#125;]] }}">
+            <button name="roll_Initiative" type="roll" style="width:20%" title="Select your token first!&#10;Rolls 1d10 + Initiative Modifier&#10;&#10;Selector to the Right --->&#10;Contains available options."  
+            value="@{gmroll}&{template:custom} {{name=**@{character_name} rolls Initiative**}} {{d1=**Initiative Modifier** [[@{inimod}]] }} {{Initiative Result= [[1d10+@{inimod}&{tracker&#125;]] }}">
                 <label>Roll Initiative</label></button>
-            <div class="spacing" style="width:1%"></div>    
-            <input name="attr_inimod" type="number" value="0" style="width:9%" title="Initiative Modifier&#10;Type here your (Ag) Bonus (default)&#10;Plus any Talent that increases (or changes) your Initiative.&#10;e.g.: Lightning Reflexes (Ag) Bonus x2.&#10;e.g.: Combat Sense uses (Per) Bonus instead."/>
+            <div class="spacing" style="width:1%"></div>
+            <select name="attr_inimod" style="width:21%">
+                <option disabled style="background:gray;font-weight:bold;color:white;">Select Initiative Modifier</option>
+                <option value="@{AB}[AB]" selected>Agility Bonus (Default)</option>
+                <option value="@{IB}[IB]">Combat Formation (Int Bonus)</option>
+                <option value="@{PB}[PB]">Combat Sense (Per Bonus)</option>
+                <option value="(@{AB}*2)[ABx2]">Lightning Reflexes (Ag Bonus x2)</option>
+                <option value="(?{Custom Initiative Mod|0})">Custom</option>
+                <option disabled style="background:gray;font-weight:bold;color:white;">Paranoia Talent (+2)</option>
+                <option value="(@{AB}+2)[AB]">Agility Bonus (Default)</option>
+                <option value="(@{IB}+2)[IB]">Combat Formation (Int Bonus)</option>
+                <option value="(@{PB}+2)[PB]">Combat Sense (Per Bonus)</option>
+                <option value="((@{AB}*2)+2)[ABx2]">Lightning Reflexes (Ag Bonus x2)</option>
+            </select>
             <div class="spacing" style="width:1%"></div>
             <button name="roll_FateInitiative" type="roll" style="width:20%" title="Select your token first!&#10;Use a Fate Point to get a 10&#10;on the initiative roll&#10;+ Initiative Modifier"  
-            value="@{gmroll}&{template:custom} {{name=**@{character_name} spends Fate Point for Initiative**}} {{d1=**Initiative Modifier** [[@{inimod}]] }} {{t1=**Agility Bonus** [[@{AB}]] }} {{Initiative Result= [[10+@{inimod}&{tracker&#125;]] }}">
+            value="@{gmroll}&{template:custom} {{name=**@{character_name} spends Fate Point for Initiative**}} {{d1=**Initiative Modifier** [[@{inimod}]] }} {{Initiative Result= [[10+@{inimod}&{tracker&#125;]] }}">
                 <label>FP Initiative</label></button>
             <div class="spacing" style="width:1%"></div>
-            <button name="roll_DamageCalc" type="roll" style="width:30%" title="Damage Calculator&#10;Allows to input Raw Damage, TB, AP and PEN numbers&#10;Final result is Damage inflicted." 
-            value="@{gmroll}&{template:custom} {{name=**Damage Calculator**}} {{Damage Taken=[[?{Damage|0}[DMG] - (?{Toughness Bonus|0}[TB] + {?{Armour Points?|0}-?{Penetration?|0},0}k1[AP BNS])]] }}">
-                <label>Damage Calculator</label></button>
+            <button name="roll_DamageCalc" type="roll" style="width:18%" title="Damage Calculator&#10;Allows to input Raw Damage, TB, AP and PEN numbers&#10;Final result is Damage inflicted." 
+            value="@{gmroll}&{template:custom} {{name=**Damage Calculator**}} {{Damage Taken=[[?{Damage|0}[DMG] - (?{Toughness Bonus|0}[TB] + {?{Armour Points?|0}[AP]-?{Penetration?|0}[PEN],0}k1)]] }}">
+                <label>Calculator</label></button>
             <div class="spacing" style="width:1%"></div>
             <button name="roll_RangedMulti" type="roll" style="width:17%" title="Allows you to determine&#10;multiple hit locations from ranged weapons"
             value="@{gmroll}&{template:custom} {{name=**@{character_name} lands multiple hits!**}} {{multihit= [[?{1st Hit Location| Head, 0|Arms,11|Body,22|Legs,33} + ?{Additional Hits|1|2|3|4|5|6|7|8|9|10}]] }}">
@@ -1486,13 +1498,13 @@
             <div class="leftbox trask">
                 <br></br>
                 <div class="armourblock">&nbsp;</div>
-                <div class="quickborder armourblock"><label>Head</label><input name="attr_headAP" type="number" placeholder="AP" style="color:black; font-weight:bold" value="8"/><label>(1-10)</label><input name="attr_headsoak" type="text" title="Armor + Toughness Bonus" value="@{headAP}+@{TB}" disabled style="color:black; font-weight:bold"/></div>
+                <div class="quickborder armourblock"><label>Head</label><input name="attr_headAP" type="number" placeholder="AP" style="color:black; font-weight:bold" value="8"/><label>(1-10)</label><button name="roll_calchead" type="roll" title="Calculate Damage to this Location" value="@{gmroll}&{template:custom} {{name=@{character_name} was hit&#10;in the Head!}} {{d10= [[((( ([[@{wounds}]] - [[{?{Damage Taken|0} - (@{TB} + {@{headAP} - ?{Penetration?|0},0}kh1),0d0}kh1]]) )))]] }} {{calc= $[[1]] }}"><label>Hit!</label></button></div>
                 <br></br>
-                <div class="quickborder armourblock"><label>Arm R.</label><input name="attr_armrightAP" type="number" placeholder="AP" style="color:black; font-weight:bold" value="8"/><label>(11-20)</label><input name="attr_armrightsoak" type="text" title="Armor + Toughness Bonus" value="@{armrightAP}+@{TB}" disabled style="color:black; font-weight:bold"/></div>
-                <div class="quickborder armourblock"><label>Body</label><input name="attr_bodyAP" type="number" placeholder="AP" style="color:black; font-weight:bold" value="10"/><label>(31-70)</label><input name="attr_bodysoak" type="text" title="Armor + Toughness Bonus" value="@{bodyAP}+@{TB}" disabled style="color:black; font-weight:bold"/></div>
-                <div class="quickborder armourblock"><label>Arm L.</label><input name="attr_armrleftAP" type="number" placeholder="AP" style="color:black; font-weight:bold" value="8"/><label>(21-30)</label><input name="attr_armleftsoak" type="text" title="Armor + Toughness Bonus" value="@{armrleftAP}+@{TB}" disabled style="color:black; font-weight:bold"/></div>
-                <div class="quickborder armourblock" style="margin: auto auto auto 11%;"><label>Leg R.</label><input name="attr_legrightAP" type="number" placeholder="AP" style="color:black; font-weight:bold" value="8"/><label>(71-85)</label><input name="attr_legleftsoak" type="text" title="Armor + Toughness Bonus" value="@{legrightAP}+@{TB}" disabled style="color:black; font-weight:bold"/></div>
-                <div class="quickborder armourblock" style="margin: auto auto auto 11%;"><label>Leg L.</label><input name="attr_legleftAP" type="number" placeholder="AP" style="color:black; font-weight:bold" value="8"/><label>(86-100)</label><input name="attr_legrightsoak" type="text" title="Armor + Toughness Bonus" value="@{legleftAP}+@{TB}" disabled style="color:black; font-weight:bold"/></div>
+                <div class="quickborder armourblock"><label>Arm R.</label><input name="attr_armrightAP" type="number" placeholder="AP" style="color:black; font-weight:bold" value="8"/><label>(11-20)</label><button name="roll_calcarmr" type="roll" title="Calculate Damage to this Location" value="@{gmroll}&{template:custom} {{name=@{character_name} was hit&#10;in the Right Arm!}} {{d10= [[((( ([[@{wounds}]] - [[{?{Damage Taken|0} - (@{TB} + {@{armrightAP} - ?{Penetration?|0},0}kh1),0d0}kh1]]) )))]] }} {{calc= $[[1]] }}"><label>Hit!</label></button></div>
+                <div class="quickborder armourblock"><label>Body</label><input name="attr_bodyAP" type="number" placeholder="AP" style="color:black; font-weight:bold" value="10"/><label>(31-70)</label><button name="roll_calcbody" type="roll" title="Calculate Damage to this Location" value="@{gmroll}&{template:custom} {{name=@{character_name} was hit&#10;in the Body!}} {{d10= [[((( ([[@{wounds}]] - [[{?{Damage Taken|0} - (@{TB} + {@{bodyAP} - ?{Penetration?|0},0}kh1),0d0}kh1]]) )))]] }} {{calc= $[[1]] }}"><label>Hit!</label></button></div>
+                <div class="quickborder armourblock"><label>Arm L.</label><input name="attr_armrleftAP" type="number" placeholder="AP" style="color:black; font-weight:bold" value="8"/><label>(21-30)</label><button name="roll_calcarml" type="roll" title="Calculate Damage to this Location" value="@{gmroll}&{template:custom} {{name=@{character_name} was hit&#10;in the Left Arm!}} {{d10= [[((( ([[@{wounds}]] - [[{?{Damage Taken|0} - (@{TB} + {@{armrleftAP} - ?{Penetration?|0},0}kh1),0d0}kh1]]) )))]] }} {{calc= $[[1]] }}"><label>Hit!</label></button></div>
+                <div class="quickborder armourblock" style="margin: auto auto auto 11%;"><label>Leg R.</label><input name="attr_legrightAP" type="number" placeholder="AP" style="color:black; font-weight:bold" value="8"/><label>(71-85)</label><button name="roll_calclegr" type="roll" title="Calculate Damage to this Location" value="@{gmroll}&{template:custom} {{name=@{character_name} was hit&#10;in the Right Leg!}} {{d10= [[((( ([[@{wounds}]] - [[{?{Damage Taken|0} - (@{TB} + {@{legrightAP} - ?{Penetration?|0},0}kh1),0d0}kh1]]) )))]] }} {{calc= $[[1]] }}"><label>Hit!</label></button></div>
+                <div class="quickborder armourblock" style="margin: auto auto auto 11%;"><label>Leg L.</label><input name="attr_legleftAP" type="number" placeholder="AP" style="color:black; font-weight:bold" value="8"/><label>(86-100)</label><button name="roll_calclegl" type="roll" title="Calculate Damage to this Location" value="@{gmroll}&{template:custom} {{name=@{character_name} was hit&#10;in the Left Leg!}} {{d10= [[((( ([[@{wounds}]] - [[{?{Damage Taken|0} - (@{TB} + {@{legleftAP} - ?{Penetration?|0},0}kh1),0d0}kh1]]) )))]] }} {{calc= $[[1]] }}"><label>Hit!</label></button></div>
             </div>
             <div class="rightbox">
                 <h2>Wounds &#128935;</h2>
@@ -1989,26 +2001,32 @@
         <div class="grid2">
             <div class="leftbox">
                 <h1>Attack Patterns</h1>
-                <button name="roll_SquadAb1" type="roll" style="width:33%" title="Free Action&#10;Cost 3 Cohesion&#10;Sustained: NO&#10;&#10;When the Battle-Brother calls a Bolter Assault, both he&#10;and those in Support Range may make an immediate Charge&#10;Move and a Standard Attack with a bolter, bolt pistol, or storm bolter.&#10;May use their Standard Attack to throw a grenade instead.&#10;&#10;Improvement: At Rank 4&#10;Can make Semi Auto Bursts and Full Auto Bursts&#10;instead of a Standard Attack."
+                <input style="width:2%" name="attr_abibox1" type="checkbox" value="1"/>
+                <button name="roll_SquadAb1" type="roll" style="width:31%" title="Free Action&#10;Cost 3 Cohesion&#10;Sustained: NO&#10;&#10;When the Battle-Brother calls a Bolter Assault, both he&#10;and those in Support Range may make an immediate Charge&#10;Move and a Standard Attack with a bolter, bolt pistol, or storm bolter.&#10;May use their Standard Attack to throw a grenade instead.&#10;&#10;Improvement: At Rank 4&#10;Can make Semi Auto Bursts and Full Auto Bursts&#10;instead of a Standard Attack."
                     value="@{gmroll}&{template:custom} {{name=**@{character_name} calls for a Bolter Assault**}} {{desc= }}">
                         <label>Bolter Assault &#128712;</label></button>
                 <div class="spacing" style="width:0.5%"></div>
-                <button name="roll_SquadAb2" type="roll" style="width:33%" title="Half Action&#10;Cost 2 Cohesion&#10;Sustained: YES&#10;&#10;While this ability is active, the Kill-team may use their&#10;Reactions to make a Standard Attack with a ranged weapon.&#10;&#10;Improvement: At Rank 4&#10;Can make Semi Auto Bursts and Full Auto Bursts&#10;instead of a Standard Attack."
+                <input style="width:2%" name="attr_abibox2" type="checkbox" value="1"/>
+                <button name="roll_SquadAb2" type="roll" style="width:31%" title="Half Action&#10;Cost 2 Cohesion&#10;Sustained: YES&#10;&#10;While this ability is active, the Kill-team may use their&#10;Reactions to make a Standard Attack with a ranged weapon.&#10;&#10;Improvement: At Rank 4&#10;Can make Semi Auto Bursts and Full Auto Bursts&#10;instead of a Standard Attack."
                     value="@{gmroll}&{template:custom} {{name=**@{character_name} calls for Fire for Effect**}} {{desc= }}">
                         <label>Fire for Effect &#128712;</label></button>
                 <div class="spacing" style="width:0.5%"></div>
-                <button name="roll_SquadAb3" type="roll" style="width:33%" title="Half Action (Free Action at Rank 3+)&#10;Cost 1 Cohesion&#10;Sustained: YES&#10;&#10;While this ability is active, the Kill-team does not&#10;suffer the normal –20 to hit when using the Suppressing Fire&#10;and Overwatch actions.&#10;&#10;Improvement: At Rank 3&#10;Ability can be activated as a Free Action."
+                <input style="width:2%" name="attr_abibox3" type="checkbox" value="1"/>
+                <button name="roll_SquadAb3" type="roll" style="width:31%" title="Half Action (Free Action at Rank 3+)&#10;Cost 1 Cohesion&#10;Sustained: YES&#10;&#10;While this ability is active, the Kill-team does not&#10;suffer the normal –20 to hit when using the Suppressing Fire&#10;and Overwatch actions.&#10;&#10;Improvement: At Rank 3&#10;Ability can be activated as a Free Action."
                     value="@{gmroll}&{template:custom} {{name=**@{character_name} calls for Fire Support**}} {{desc= }}">
                         <label>Fire Support &#128712;</label></button>
-                <button name="roll_SquadAb4" type="roll" style="width:33%" title="Free Action&#10;Cost 3 Cohesion&#10;Sustained: NO&#10;&#10;The Battle-Brother and those in Support Range of him may&#10;make an immediate Charge Attack with a melee weapon.&#10;Battle-Brothers involved may re-roll Damage for their attacks.&#10;&#10;Improvement: At Rank 5&#10;Can make use of multiple attacks with talents&#10;such as Swift Attack or Lightning Attack."
+                <input style="width:2%" name="attr_abibox4" type="checkbox" value="1"/>
+                <button name="roll_SquadAb4" type="roll" style="width:31%" title="Free Action&#10;Cost 3 Cohesion&#10;Sustained: NO&#10;&#10;The Battle-Brother and those in Support Range of him may&#10;make an immediate Charge Attack with a melee weapon.&#10;Battle-Brothers involved may re-roll Damage for their attacks.&#10;&#10;Improvement: At Rank 5&#10;Can make use of multiple attacks with talents&#10;such as Swift Attack or Lightning Attack."
                     value="@{gmroll}&{template:custom} {{name=**@{character_name} calls for a Furious Charge**}} {{desc= }}">
                         <label>Furious Charge &#128712;</label></button>
                 <div class="spacing" style="width:0.5%"></div>
-                <button name="roll_SquadAb5" type="roll" style="width:33%" title="Half Action (Free Action at Rank 3+)&#10;Cost 1 Cohesion&#10;Sustained: YES&#10;&#10;While this ability is active, the Kill-team may use&#10;their Reactions to make a Tactical Advance combat action.&#10;&#10;Improvement: At Rank 3&#10;Ability can be activated as a Free Action."
+                <input style="width:2%" name="attr_abibox5" type="checkbox" value="1"/>
+                <button name="roll_SquadAb5" type="roll" style="width:31%" title="Half Action (Free Action at Rank 3+)&#10;Cost 1 Cohesion&#10;Sustained: YES&#10;&#10;While this ability is active, the Kill-team may use&#10;their Reactions to make a Tactical Advance combat action.&#10;&#10;Improvement: At Rank 3&#10;Ability can be activated as a Free Action."
                     value="@{gmroll}&{template:custom} {{name=**@{character_name} calls for a Squad Advance**}} {{desc= }}">
                         <label>Squad Advance &#128712;</label></button>
                 <div class="spacing" style="width:0.5%"></div>
-                <button name="roll_SquadAb6" type="roll" style="width:33%" title="Free Action&#10;Cost 1 Cohesion&#10;Sustained: NO&#10;&#10;The Battle Brother may nominate a member of the Kill-team armed with&#10;either a heavy weapon or an explosive (this could be himself)&#10;&#10;For every Kill-Team member in support range the nominated&#10;Battle-Brother may add either +5 to his Ballistic Skill to the attack&#10;or move 2 metres closer to his target (This is considered an Attack Action)&#10;&#10;Improvement: At Rank 4&#10;The Bonus increases to +10 BS or 5 metres&#10;per Kill-team member in Support Range."
+                <input style="width:2%" name="attr_abibox6" type="checkbox" value="1"/>
+                <button name="roll_SquadAb6" type="roll" style="width:31%" title="Free Action&#10;Cost 1 Cohesion&#10;Sustained: NO&#10;&#10;The Battle Brother may nominate a member of the Kill-team armed with&#10;either a heavy weapon or an explosive (this could be himself)&#10;&#10;For every Kill-Team member in support range the nominated&#10;Battle-Brother may add either +5 to his Ballistic Skill to the attack&#10;or move 2 metres closer to his target (This is considered an Attack Action)&#10;&#10;Improvement: At Rank 4&#10;The Bonus increases to +10 BS or 5 metres&#10;per Kill-team member in Support Range."
                     value="@{gmroll}&{template:custom} {{name=**@{character_name} calls for a Tank Buster**}} {{desc= }}"> 
                         <label>Tank Buster &#128712;</label></button>
                 <fieldset class="repeating_abilities3">
@@ -2042,26 +2060,32 @@
             </div>
             <div class="rightbox">
                 <h1>Defensive Stances</h1>
-                <button name="roll_SquadAb7" type="roll" style="width:33%" title="Full Action&#10;Cost 3 Cohesion&#10;Sustained: YES&#10;&#10;While this ability is active, the Battle-Brother and those in&#10;Support Range of him can double the Armour Points&#10;given by any cover they are currently using&#10;This bonus to cover only applies to each individual&#10;Battle-Brother so long as they remain stationary.&#10;&#10;Improvement: At Rank 5&#10;The double armour bonus applies to&#10;all cover use, even after moving to a different cover."
+                <input style="width:2%" name="attr_abibox7" type="checkbox" value="1"/>
+                <button name="roll_SquadAb7" type="roll" style="width:31%" title="Full Action&#10;Cost 3 Cohesion&#10;Sustained: YES&#10;&#10;While this ability is active, the Battle-Brother and those in&#10;Support Range of him can double the Armour Points&#10;given by any cover they are currently using&#10;This bonus to cover only applies to each individual&#10;Battle-Brother so long as they remain stationary.&#10;&#10;Improvement: At Rank 5&#10;The double armour bonus applies to&#10;all cover use, even after moving to a different cover."
                     value="@{gmroll}&{template:custom} {{name=**@{character_name} calls for to Dig In**}} {{desc= }}">
                         <label>Dig In &#128712;</label></button>
                 <div class="spacing" style="width:0.5%"></div>
-                <button name="roll_SquadAb8" type="roll" style="width:33%" title="Reaction&#10;Cost 1 Cohesion&#10;Sustained: NO&#10;&#10;The Battle-Brother may issue a Go to Ground order when he or another member of his&#10;Kill-team within his Support Range has been hit by a ranged attack.&#10;&#10;They may make a free move up to their Agility Bonus in metres to find cover.&#10;NOTE: the Hit will take effect before the move, in case of Semi or Auto Bursts&#10;only the first hit is worked out before the Battle-Brothers moves&#10;&#10;Improvement: At Rank 4&#10;The free move to cover may be up to twice&#10;the Battle-Brother’s Agility Bonus."
+                <input style="width:2%" name="attr_abibox8" type="checkbox" value="1"/>
+                <button name="roll_SquadAb8" type="roll" style="width:31%" title="Reaction&#10;Cost 1 Cohesion&#10;Sustained: NO&#10;&#10;The Battle-Brother may issue a Go to Ground order when he or another member of his&#10;Kill-team within his Support Range has been hit by a ranged attack.&#10;&#10;They may make a free move up to their Agility Bonus in metres to find cover.&#10;NOTE: the Hit will take effect before the move, in case of Semi or Auto Bursts&#10;only the first hit is worked out before the Battle-Brothers moves&#10;&#10;Improvement: At Rank 4&#10;The free move to cover may be up to twice&#10;the Battle-Brother’s Agility Bonus."
                     value="@{gmroll}&{template:custom} {{name=**@{character_name} calls for to Go to Ground**}} {{desc= }}">
                         <label>Go to Ground &#128712;</label></button>
                 <div class="spacing" style="width:0.5%"></div>
-                <button name="roll_SquadAb9" type="roll" style="width:33%" title="Full Action&#10;Cost 2 Cohesion&#10;Sustained: NO&#10;&#10;The Battle-Brother may order a Regroup to allow himself and&#10;those in Support Range of him to move up to twice their&#10;Agility Bonus in any direction, just as if they had made a Full&#10;Move Action. In addition, Regroup move does not trigger&#10;enemy Overwatch or Suppression Fire.&#10;&#10;Improvement: At Rank 4&#10;May Reload any weapons they are currently carrying, provided doing so&#10;would only be a Half Action or a Free Action."
+                <input style="width:2%" name="attr_abibox9" type="checkbox" value="1"/>
+                <button name="roll_SquadAb9" type="roll" style="width:31%" title="Full Action&#10;Cost 2 Cohesion&#10;Sustained: NO&#10;&#10;The Battle-Brother may order a Regroup to allow himself and&#10;those in Support Range of him to move up to twice their&#10;Agility Bonus in any direction, just as if they had made a Full&#10;Move Action. In addition, Regroup move does not trigger&#10;enemy Overwatch or Suppression Fire.&#10;&#10;Improvement: At Rank 4&#10;May Reload any weapons they are currently carrying, provided doing so&#10;would only be a Half Action or a Free Action."
                     value="@{gmroll}&{template:custom} {{name=**@{character_name} calls for to Regroup**}} {{desc= }}">
                         <label>Regroup &#128712;</label></button>
-                <button name="roll_SquadAb10" type="roll" style="width:33%" title="Reaction&#10;Cost 2 Cohesion&#10;Sustained: NO&#10;&#10;A Battle-Brother may use this ability whenever another&#10;member of his squad within his Support Range is hit&#10;by a Semi or Full Auto Burst and would be eligible to make a Dodge Test&#10;to avoid the attack. These hits are then divided evenly between the&#10;original target, the Battle-Brother, and those supporting him.&#10;NOTE: Battle-Brothers soaking fire cannot Dodge attacks allocated to them.&#10;&#10;Improvement: At Rank 4&#10;May soak single-attack ranged weapons&#10;such as a blast from a lascannon or a sniper’s bullet."
+                <input style="width:2%" name="attr_abibox10" type="checkbox" value="1"/>
+                <button name="roll_SquadAb10" type="roll" style="width:31%" title="Reaction&#10;Cost 2 Cohesion&#10;Sustained: NO&#10;&#10;A Battle-Brother may use this ability whenever another&#10;member of his squad within his Support Range is hit&#10;by a Semi or Full Auto Burst and would be eligible to make a Dodge Test&#10;to avoid the attack. These hits are then divided evenly between the&#10;original target, the Battle-Brother, and those supporting him.&#10;NOTE: Battle-Brothers soaking fire cannot Dodge attacks allocated to them.&#10;&#10;Improvement: At Rank 4&#10;May soak single-attack ranged weapons&#10;such as a blast from a lascannon or a sniper’s bullet."
                     value="@{gmroll}&{template:custom} {{name=**@{character_name} calls for to Soak Fire**}} {{desc= }}">
                         <label>Soak Fire &#128712;</label></button>
                 <div class="spacing" style="width:0.5%"></div>
-                <button name="roll_SquadAb11" type="roll" style="width:33%" title="Full Action&#10;Cost 3 Cohesion&#10;Sustained: YES&#10;&#10;A Battle-Brother can establish a Strongpoint, nominating either&#10;himself or a member of his Kill-team within Support Range&#10;as the Centre of the Strongpoint. The Centre must remain&#10;stationary for the ability to remain in effect. The Centre may&#10;then Call Targets either as a Free Action in his turn or as&#10;a Reaction. Battle-Brothers in Support Range of the Centre&#10;(including the Centre himself ) then gain a +20 to Ballistic&#10;Skill and Weapon Skill Tests against a Called Target, may re-roll&#10;Damage against it, and may use their Reactions to make&#10;Standard Attacks against it. A target remains marked in this&#10;way until either the Centre moves (ending the Strongpoint)&#10;or the Centre marks a new target."
+                <input style="width:2%" name="attr_abibox11" type="checkbox" value="1"/>
+                <button name="roll_SquadAb11" type="roll" style="width:31%" title="Full Action&#10;Cost 3 Cohesion&#10;Sustained: YES&#10;&#10;A Battle-Brother can establish a Strongpoint, nominating either&#10;himself or a member of his Kill-team within Support Range&#10;as the Centre of the Strongpoint. The Centre must remain&#10;stationary for the ability to remain in effect. The Centre may&#10;then Call Targets either as a Free Action in his turn or as&#10;a Reaction. Battle-Brothers in Support Range of the Centre&#10;(including the Centre himself ) then gain a +20 to Ballistic&#10;Skill and Weapon Skill Tests against a Called Target, may re-roll&#10;Damage against it, and may use their Reactions to make&#10;Standard Attacks against it. A target remains marked in this&#10;way until either the Centre moves (ending the Strongpoint)&#10;or the Centre marks a new target."
                     value="@{gmroll}&{template:custom} {{name=**@{character_name} calls for a Strongpoint**}} {{desc= }}">
                         <label>Strongpoint &#128712;</label></button>
                 <div class="spacing" style="width:0.5%"></div>
-                <button name="roll_SquadAb12" type="roll" style="width:33%" title="Full Action&#10;Cost 1 Cohesion&#10;Sustained: YES&#10;&#10;While this ability is active, the Battle-Brother and&#10;those in Support Range of him can share their Reactions.&#10;&#10;One Squad member could give his Reaction&#10;(losing it for himself for the turn) to another Squad member&#10;If the Space Marine has extra reactions, these may also be shared.&#10;&#10;Improvement: At Rank 5&#10;All Squad Members in support range gain an additional Reaction."
+                <input style="width:2%" name="attr_abibox12" type="checkbox" value="1"/>
+                <button name="roll_SquadAb12" type="roll" style="width:31%" title="Full Action&#10;Cost 1 Cohesion&#10;Sustained: YES&#10;&#10;While this ability is active, the Battle-Brother and&#10;those in Support Range of him can share their Reactions.&#10;&#10;One Squad member could give his Reaction&#10;(losing it for himself for the turn) to another Squad member&#10;If the Space Marine has extra reactions, these may also be shared.&#10;&#10;Improvement: At Rank 5&#10;All Squad Members in support range gain an additional Reaction."
                     value="@{gmroll}&{template:custom} {{name=**@{character_name} calls for Tactical Spacing**}} {{desc= }}">
                         <label>Tactical Spacing &#128712;</label></button>
                 <fieldset class="repeating_abilities4">
@@ -2350,24 +2374,34 @@
                         <input name="attr_NPCCBaseLeap" type="number" value="0" title="SB x 20cm" style="width:10%"/>
                     </div>
                     <!--fatigue and initiative-->
-                    <div class="grid2" style="margin-top:3px">
-                        <div class="leftbox">
-                            <input style="width:50%" type="checkbox" name="attr_NPCfat" value="10" class="fancy2"
-                            title="Any level of Fatigue adds a -10 Penalty to all Tests.&#10;&#10;Click here to apply this Penalty&#10;This will affect skill tests and Weapon attack rolls&#10;Uncheck to remove Penalty.&#10;&#10;Fatigue Limit equals Toughness Bonus.&#10;If the Character excedes its Fatigue Limit&#10;it falls Unconcious for 10 min -TB.&#10;&#10;Full rules can be found in Pag. 251"/>
-                            <div class="spacing" style="width:10%"></div>
-                            <label style="width:20%">Level:</label>
-                            <input name="attr_NPCFatigue" type="number" style="width:15%"/>
-                            <div class="spacing" style="width:5%"></div>
-                        </div>
-                        <div class="rightbox">
-                            <button name="roll_NPCInitiative" type="roll" style="width:50%" title="Select NPC token first!&#10;Rolls 1d10 + Initiative Modifier" 
-                            value="@{gmroll}&{template:custom} {{name=**@{NPC_Name} rolls Initiative**}} {{d1=**Initiative Modifier** [[@{NPCinimod}]] }} {{t1=**Agility Bonus** [[@{NPCAB}]] }} {{Initiative Result=[[1d10+@{NPCinimod}&{tracker&#125;]] }}">
-                                <label>Initiative &#128712;</label></button>
-                            <div class="spacing" style="width:10%"></div>
-                            <label style="width:25%" class="help" title="Initiative Modifier&#10;Type here the NPC (Ag) Bonus (default)&#10;Plus any Talent that increases (or changes) their Initiative.&#10;e.g.: Lightning Reflexes (Ag) Bonus x2.&#10;e.g.: Combat Sense uses (Per) Bonus instead."
-                            >Mod &#128712;:</label>
-                            <input name="attr_NPCinimod" type="number" value="0" style="width:15%"></input>
-                        </div>
+                    <div style="margin-top:3px">
+                        <input style="width:20%" type="checkbox" name="attr_NPCfat" value="10" class="fancy2"
+                        title="Any level of Fatigue adds a -10 Penalty to all Tests.&#10;&#10;Click here to apply this Penalty&#10;This will affect skill tests and Weapon attack rolls&#10;Uncheck to remove Penalty.&#10;&#10;Fatigue Limit equals Toughness Bonus.&#10;If the Character excedes its Fatigue Limit&#10;it falls Unconcious for 10 min -TB.&#10;&#10;Full rules can be found in Pag. 251"/>
+                        <div class="spacing" style="width:1%"></div>
+                        <label style="width:10%">Level:</label>
+                        <input name="attr_NPCFatigue" type="number" style="width:5%"/>
+                        <div class="spacing" style="width:2%"></div>
+                        <button name="roll_calcnpc" style="width:20%" type="roll" title="Calculate Damage to NPC&#10;Most NPCs have a single AP value&#10;This macro uses the BODY AP and TB&#10;&#10;If AP value is different&#10;Adjust BODY AP value before rolling" 
+                        value="@{gmroll}&{template:custom} {{d10= [[((( ([[@{NPCWounds}]] - [[{?{Damage Taken|0} - (@{NPCTB} + {@{NPCBArmour} - ?{Penetration?|0},0}kh1),0d0}kh1]]) )))]] }} {{calc= $[[1]] }}">
+                            <label>Calculator &#128712;</label></button>
+                        <div class="spacing" style="width:1%"></div>
+                        <button name="roll_NPCInitiative" type="roll" style="width:20%" title="Select NPC token first!&#10;Rolls 1d10 + Initiative Modifier" 
+                        value="@{gmroll}&{template:custom} {{name=**@{NPC_Name} rolls Initiative**}} {{d1=**Initiative Modifier** [[@{NPCinimod}]] }} {{t1=**Agility Bonus** [[@{NPCAB}]] }} {{Initiative Result=[[1d10+@{NPCinimod}&{tracker&#125;]] }}">
+                            <label>Initiative &#128712;</label></button>
+                        <div class="spacing" style="width:1%"></div>
+                        <select name="attr_NPCinimod" style="width:20%">
+                            <option disabled style="background:gray;font-weight:bold;color:white;">Select Initiative Modifier</option>
+                            <option value="@{AB}[AB]" selected>Agility Bonus (Default)</option>
+                            <option value="@{IB}[IB]">Combat Formation (Int Bonus)</option>
+                            <option value="@{PB}[PB]">Combat Sense (Per Bonus)</option>
+                            <option value="(@{AB}*2)[ABx2]">Lightning Reflexes (Ag Bonus x2)</option>
+                            <option value="(?{Custom Initiative Mod|0})">Custom</option>
+                            <option disabled style="background:gray;font-weight:bold;color:white;">Paranoia Talent (+2)</option>
+                            <option value="(@{AB}+2)[AB]">Agility Bonus (Default)</option>
+                            <option value="(@{IB}+2)[IB]">Combat Formation (Int Bonus)</option>
+                            <option value="(@{PB}+2)[PB]">Combat Sense (Per Bonus)</option>
+                            <option value="((@{AB}*2)+2)[ABx2]">Lightning Reflexes (Ag Bonus x2)</option>
+                        </select>
                     </div>
                     <div class="grid2" style="margin-top:2px">
                         <div class="leftbox">
@@ -3140,13 +3174,13 @@
                 <label style="width:30%">Carrying Capacity:</label>
                 <input name="attr_VehCapacity" type="text" style="width:70%"></input>
                 <h1>Defenses & Movement</h1>
-                <div class="spacing" style="width:6%"></div>
-                <label style="width:9%">Front</label>
-                <div class="spacing" style="width:12%"></div>
-                <label style="width:9%">Sides</label>
-                <div class="spacing" style="width:11%"></div>
-                <label style="width:8%">Rear</label>
-                <div class="spacing" style="width:19%"></div>
+                <div class="spacing" style="width:1%"></div>
+                <button name="roll_calcfront" style ="width:18%" type="roll" title="Calculate Damage to this Location" value="@{gmroll}&{template:custom} {{name=@{Veh_name} was hit&#10;on the Front!}} {{d10= [[((( ([[@{VehIntegrity}]] - [[{?{Damage Taken|0} - ({@{VehFront} - ?{Penetration?|0},0}kh1),0d0}kh1]]) )))]] }} {{calc= $[[1]] }}"><label>Front &#128712;</label></button>
+                <div class="spacing" style="width:2%"></div>
+                <button name="roll_calcsides" style ="width:18%" type="roll" title="Calculate Damage to this Location" value="@{gmroll}&{template:custom} {{name=@{Veh_name} was hit&#10;on the Side!}} {{d10= [[((( ([[@{VehIntegrity}]] - [[{?{Damage Taken|0} - ({@{VehSides} - ?{Penetration?|0},0}kh1),0d0}kh1]]) )))]] }} {{calc= $[[1]] }}"><label>Sides &#128712;</label></button>
+                <div class="spacing" style="width:2%"></div>
+                <button name="roll_calcrear" style ="width:18%" type="roll" title="Calculate Damage to this Location" value="@{gmroll}&{template:custom} {{name=@{Veh_name} was hit&#10;on the Rear!}} {{d10= [[((( ([[@{VehIntegrity}]] - [[{?{Damage Taken|0} - ({@{VehRear} - ?{Penetration?|0},0}kh1),0d0}kh1]]) )))]] }} {{calc= $[[1]] }}"><label>Rear &#128712;</label></button>
+                <div class="spacing" style="width:15%"></div>
                 <label style="width:13%">Integrity</label>
                 <div class="spacing" style="width:13%"></div>
                 <!-- input fields -->
@@ -3157,9 +3191,9 @@
                 <div class="spacing" style="width:2%"></div>
                 <input style="width:18%" name="attr_VehRear" type="number" placeholder="AP"></input>
                 <div class="spacing" style="width:2%"></div>
-                <input style="width:18%" name="attr_VehIntegrity_max" type="number" placeholder="Total"></input>
-                <div class="spacing" style="width:2%"></div>
                 <input style="width:18%" name="attr_VehIntegrity" type="number" placeholder="Current"></input>
+                <div class="spacing" style="width:2%"></div>
+                <input style="width:18%" name="attr_VehIntegrity_max" type="number" placeholder="Total"></input>
                 <div class="spacing" style="width:1%"></div>
                 <!-- input fields -->
                 <label style="width:15%">Tactical:</label>
@@ -3194,7 +3228,7 @@
                 <div class="spacing" style="width:2%"></div>
                 <input name="attr_VehBS" style="width:15%" type="number" placeholder="BS" title="Type here Driver/Pilot BS value"></input>
                 <div class="spacing" style="width:2%"></div>
-                <button name="roll_VehCrit2" type="roll" style="width:29%" 
+                <button name="roll_VehCrit2" type="roll" style="width:29%" title="Shows Critical hit effects"
                 value="@{gmroll}&{template:custom} {{name=**@{Veh_name} suffers a Critical Hit!**}} {{desc= ?{Select|Critical 1 or 2, **Jarring Blow**&#10;The Impact tosses the vehicle around throwing anything inside about the interior compartments. Any Crew or passengers who are not strapped in or otherwise secured must make an **Ordinary (+10) Toughness Test or be Stunned for [[1d5]] Rounds**. All Shooting from the vehicle during the next Round suffers **-20 to hit**|
                 Critical 3,**Staggered**&#10;A direct hit on the armour surrounding the driver compartment leaves the pilot stunned and reeling. The Pilot or Driver must pass a **Challenging (+0) Toughness Test or be Stunned for [[1d5]] Rounds**. A ground vehicle comes to a screeching halt a skimmer will drift in the direction it last moved at its acceleration while a flyer will slowly tip over and begin a terminal dive unless the pilot comes to its senses and rights the aircraft|
                 Critical 4,**Weapon Destroyed**&#10;A randomly selected weapon on the vehicle is hit by the blast its twisted and melted beyond repair. The Weapon **no longer functions** and there is a 25% chance [[1d100cf>75]] of the weapon ammo cooking off. If it does so roll damage against the vehicle and any gunners manning the weapon as if the destroyed weapon had hit them **halving all damage rolled**|
@@ -3203,7 +3237,7 @@
                 Critical 7,**Fire**&#10;The vehicle catches fire as its fuel stores ignite or power reserves overload. Anyone inside must pass a **Difficult (-10) Agility Test or catch fire on every round they are inside the vehicle**. In addition each round there is a **20% chance** [[1d100cf>80]] the vehicle will **explode** (critical 11+)|
                 Critical 8 to 10,**Destroyed**&#10;The Hit wrecks the vehicle turning it into a shattered hulk. **Anyone inside** the vehicle takes [[2d10]] **Explosive Damage** and must pass a **Difficult (-10) Toughness Test or be Stunned for** [[1d10]] **Rounds**. Skimmers and Flyers crash to the ground.|
                 Critical 11+,**Explodes**&#10;A direct hit to ammo stores and or fuel tanks turns the vehicle into a raging fireball. **Anyone inside** takes [[5d10]] **Explosive Damage**. **Anyone within** [[2d10]] **meters** of the vehicle suffer [[2d10]] **Explosive Damage** as well. *If the vehicle has an open top or sides or hatches* then passengers and crew may take a **Challenging (+0) Dodge Test** to bail out at the last second. If they succeed they only take [[2d10]] **Explosive Damage**.} }}">
-                    <label>Critical Hit!</label></button>
+                    <label>Critical Hit &#128712;</label></button>
                 <h1>Special Rules</h1>
                 <textarea style="height:106px" name="attr_VehSpecialRules"></textarea>
             </div>
@@ -4208,7 +4242,7 @@
     <h3>Experience & Advancements</h3>
     <div>
         <label style="width:12%" class="help" title="Remaining XP to spend based on Earned XP">&#128712; XP to Spend:</label>
-        <input name="attr_XPtoSpend" type="text" style="width:14%" value="@{XPTotal} - (@{XPSpent})" disabled></input>
+        <input name="attr_XPtoSpend" type="text" style="width:14%" value="(@{XPTotal}) - (@{XPSpent})" disabled></input>
         <div class="spacing" style="width:2%"></div>
         <label style="width:14%" class="help" title="Total XP Spent determines your character's Rank&#10;&#10;Rank 1: 13,000 - 16,999&#10;Rank 2: 17,000 - 20,999&#10;Rank 3: 21,000 – 24,999&#10;Rank 4: 25,000 – 29,999&#10;Rank 5: 30,000 – 34,999&#10;Rank 6: 35,000 – 39,999&#10;Rank 7: 40,000 – 44,999&#10;Rank 8: 45,000 - 49,999+"
         >&#128712; Total XP Spent:</label>
@@ -4587,7 +4621,6 @@
         <span style="width:100%">GiGs and Scott C. for providing advice with this sheet layout, including resolution to the infamous "input inside a button" problem</span>
         <span style="width:100%">Oosh for assisting with the Damage Calculator macro</span>
         <span style="width:100%">Andreas j. for providing support on this sheet wiki page</span>
-        <span style="width:100%">The Aaron for "The Aaron sheet" script workers inside this sheet</span>
         <div class="logo" style="width:100%"><img style="width:20%; display:block; margin-left:auto; margin-right:auto" src="https://raw.githubusercontent.com/roguetradermago/Rogue-Trader-improved-assets/87a160e266820c355431552d6d9d8d7941f4033d/dwi-icon-creds.png"></div>
         <span style="width:100%; margin-bottom:10px">Deathwatch Improved Rev.1 Sep 2024</span>
     </div>
@@ -4839,10 +4872,10 @@ on("change:startingFEL change:AdvancedFEL1 change:AdvancedFEL2 change:AdvancedFE
                 <div class="sheet-name">{{name}}</div>
             {{/name}}
         <!--section that allows the 2 columns to show key and value side by side -->
-            {{#allprops() cohres batable xd5 d5 xd10 d10 d100h field npcflame hallu flame d1 t1 p1 psyres d100p stun d100a parry dosdof testresult testtarget d100 psydesc psypen psydmg desc name attack hitloc fallhitloc bloodloss fury navmutable perilstable psytable shocktable traumatable maligtable mutable scatter multihit}}  
+            {{#allprops() calc cohres batable xd5 d5 xd10 d10 d100h field npcflame hallu flame d1 t1 p1 psyres d100p stun d100a parry dosdof testresult testtarget d100 psydesc psypen psydmg desc name attack hitloc fallhitloc bloodloss fury navmutable perilstable psytable shocktable traumatable maligtable mutable scatter multihit}}  
                 <div class="sheet-key">{{key}}</div>
                 <div class="sheet-value">{{value}}</div><!--hidden rolls that can be reused {{psypen}} {{psydmg}} {{hitloc}} {{xd5 d5 xd10 d10 d100h}}-->
-            {{/allprops() cohres batable xd5 d5 xd10 d10 d100h field npcflame hallu flame d1 t1 p1 psyres d100p stun d100a parry dosdof testresult testtarget d100 psydesc psypen psydmg desc name attack hitloc fallhitloc bloodloss fury navmutable perilstable psytable shocktable traumatable maligtable mutable scatter multihit}}
+            {{/allprops() calc cohres batable xd5 d5 xd10 d10 d100h field npcflame hallu flame d1 t1 p1 psyres d100p stun d100a parry dosdof testresult testtarget d100 psydesc psypen psydmg desc name attack hitloc fallhitloc bloodloss fury navmutable perilstable psytable shocktable traumatable maligtable mutable scatter multihit}}
 		 <!--section for regular rolls show success and failure-->
             {{#testtarget}}
                 <div class="sheet-result">{{testtarget}}&#160;Threshold</div>
@@ -4876,6 +4909,17 @@ on("change:startingFEL change:AdvancedFEL1 change:AdvancedFEL2 change:AdvancedFE
                     {{#rollWasCrit() flame }}<br>A Righteous Fury! &#128293;<br>Adds {{xd10}} Bonus Damage!{{/rollWasCrit() flame }}
                 </div>
             {{/flame}}
+            {{#calc}}
+                <div class="sheet-result">
+                    {{#rollGreater() calc 0 }}taking {{calc}} Damage!<br><br>
+                        {{#rollGreater() d10 0 }}Current Wounds {{d10}}{{/rollGreater() d10 0 }}
+                        {{#rollTotal() d10 0 }}Current Wounds {{d10}}{{/rollTotal() d10 0 }}
+                        {{#rollLess() d10 0 }}Critical Damage! {{d10}}{{/rollLess() d10 0 }}
+                    {{/rollGreater() calc 0 }}
+                    {{#rollTotal() calc 0 }}taking No Damage{{/rollTotal() calc 0 }}
+                    {{#rollLess() calc 0 }}taking No Damage{{/rollLess() calc 0 }}
+                </div>
+            {{/calc}}
         <!--sections without key/value, used in damage, type, pen and flame-->
 			{{#d1}}
                 <div class="sheet-result">{{d1}}</div>
